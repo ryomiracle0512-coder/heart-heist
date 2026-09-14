@@ -1,0 +1,10 @@
+{
+  "source": "Original local synthesis",
+  "generator": "scripts/generate_audio.py",
+  "license": "CC0-1.0",
+  "sampleRate": 22050,
+  "channels": 1,
+  "seed": 9,
+  "files": ["cues.wav", "ambient.wav", "alert.wav", "escape.wav"],
+  "thirdPartySamples": false
+}

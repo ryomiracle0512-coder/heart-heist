@@ -1,0 +1,50 @@
+{
+  "totalBytes": 4628707,
+  "gzipTotalBytes": 2098568,
+  "budgetBytes": 20000000,
+  "developerToolsExcluded": true,
+  "files": [
+    {
+      "path": "index.html",
+      "bytes": 558,
+      "gzipBytes": 419,
+      "sha256": "7d5a9a6372f8c803db445cd66d578242e4ff5c67c65a9a67608085bc2d209f8a"
+    },
+    {
+      "path": "assets/cues-DMRweGOE.wav",
+      "bytes": 298158,
+      "gzipBytes": 213872,
+      "sha256": "d19b4f51635843e3df534d40e250b44af0c81bcbbde0508b43840d4531a041b9"
+    },
+    {
+      "path": "assets/alert-CdVlSp0A.wav",
+      "bytes": 264644,
+      "gzipBytes": 226983,
+      "sha256": "63308504e559616b0963d2ec490237b42a550604dee5c8eb7b555cda66ca5cc2"
+    },
+    {
+      "path": "assets/ambient-C_bBvXDB.wav",
+      "bytes": 264644,
+      "gzipBytes": 230314,
+      "sha256": "114991777d6d318e287c64de305b3bce1c5c32d34a6d4ba5f9017a707df0d828"
+    },
+    {
+      "path": "assets/index-BMmHAN7r.js",
+      "bytes": 3530116,
+      "gzipBytes": 1198038,
+      "sha256": "8e62304a15669cd6bc5275b7bbcab6e45ea9c956f6c04eaca38be199a2cde321"
+    },
+    {
+      "path": "assets/index-C-DRdr9F.css",
+      "bytes": 5943,
+      "gzipBytes": 2163,
+      "sha256": "133d767889e8cff95b3bb2b5738ce0b653a483b1181c9f4095b05aef52767771"
+    },
+    {
+      "path": "assets/escape-Bp2mF2p_.wav",
+      "bytes": 264644,
+      "gzipBytes": 226779,
+      "sha256": "25d6d7d7d96c9350b83704829027a800b35797795f81e7fa82c9896306f82585"
+    }
+  ]
+}

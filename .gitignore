@@ -1,0 +1,9 @@
+node_modules/
+dist/
+test-results/
+playwright-report/
+.DS_Store
+*.tsbuildinfo
+
+# Retain the smaller portable MP4 export in Git.
+docs/evidence/*.webm

@@ -1,0 +1,60 @@
+import { test, expect } from "@playwright/test";
+import { walk, interact, snapshot } from "./helpers";
+test.use({ video: { mode: "on", size: { width: 1440, height: 900 } } });
+test("record a continuous discovery-to-escape trade playthrough", async ({
+  page,
+}) => {
+  test.setTimeout(240000);
+  const started = Date.now();
+  const video = page.video()!;
+  await page.goto("/");
+  await expect(page.getByRole("button", { name: /潜入を開始/ })).toBeEnabled();
+  await page.waitForTimeout(12000);
+  await page.getByRole("button", { name: /潜入を開始/ }).click();
+  await page.waitForTimeout(4000);
+  await walk(page, -25, 14);
+  await interact(page);
+  await page.waitForTimeout(8000);
+  await page.getByRole("button", { name: "箱を探してくる" }).click();
+  await walk(page, -26, -8);
+  await page.waitForTimeout(4000);
+  await interact(page);
+  await walk(page, -25, 14);
+  await interact(page);
+  await page.waitForTimeout(8000);
+  await page.getByRole("button", { name: "箱を渡す", exact: true }).click();
+  await walk(page, 1, 12);
+  await walk(page, 1, -1);
+  await interact(page);
+  await walk(page, 1, -9);
+  await walk(page, 8, -17);
+  await interact(page);
+  await walk(page, 8, -23);
+  await page.waitForTimeout(5000);
+  await interact(page);
+  await page.waitForTimeout(1200);
+  await interact(page);
+  await walk(page, 8, -17);
+  await walk(page, 20, -17);
+  await page.keyboard.press("KeyT");
+  await walk(page, 20, 20);
+  await walk(page, -14, 20);
+  await interact(page);
+  expect((await snapshot(page)).mission.heart.mode).toBe("installed");
+  await page.waitForTimeout(5000);
+  await interact(page);
+  await page.keyboard.down("Space");
+  await page.waitForTimeout(3200);
+  await page.keyboard.up("Space");
+  await page.keyboard.down("KeyW");
+  await page.keyboard.down("ShiftLeft");
+  await expect(page.getByText("HEIST COMPLETE / A NEW CAPABILITY")).toBeVisible(
+    { timeout: 22000 },
+  );
+  await page.keyboard.up("KeyW");
+  await page.keyboard.up("ShiftLeft");
+  const remaining = Math.max(5000, 145000 - (Date.now() - started));
+  await page.waitForTimeout(remaining);
+  await page.close();
+  await video.saveAs("docs/evidence/07-gameplay.webm");
+});

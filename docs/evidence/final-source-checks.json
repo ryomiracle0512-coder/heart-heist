@@ -1,0 +1,50 @@
+{
+  "checkedAt": "2026-09-14T18:33:11.813500+09:00",
+  "checks": [
+    {
+      "command": "npm run build",
+      "exitCode": 0,
+      "output": "\n> heart-heist@0.1.0 build\n> tsc -b && vite build\n\nvite v7.3.6 building client environment for production...\ntransforming...\nnode_modules/zod/v4/core/util.js (400:0): A comment\n\n\"// Wrapped in a `@__PURE__` IIFE: esbuild never tree-shakes a top-level initializer that contains a member access on `Number`, so the bare object literal survived into every bundle.\"\n\nin \"node_modules/zod/v4/core/util.js\" contains an annotation that Rollup cannot interpret due to the position of the comment. The comment will be removed to avoid issues.\nnode_modules/zod/v4/core/regexes.js (74:0): A comment\n\n\"/** Anchors a pattern source. The interpolation lives here rather than at the call site because\n * esbuild will not drop a `@__PURE__` call whose own argument interpolates a variable, but it\n * will drop `anchor(dateSource)`. Keeping it inline pinned `date` into every bundle. */\"\n\nin \"node_modules/zod/v4/core/regexes.js\" contains an annotation that Rollup cannot interpret due to the position of the comment. The comment will be removed to avoid issues.\n✓ 719 modules transformed.\nrendering chunks...\ncomputing gzip size...\ndist/index.html                       0.56 kB │ gzip:     0.42 kB\ndist/assets/alert-CdVlSp0A.wav      264.64 kB\ndist/assets/ambient-C_bBvXDB.wav    264.64 kB\ndist/assets/escape-Bp2mF2p_.wav     264.64 kB\ndist/assets/cues-DMRweGOE.wav       298.16 kB\ndist/assets/index-C-DRdr9F.css        5.94 kB │ gzip:     2.16 kB\ndist/assets/index-BMmHAN7r.js     3,530.12 kB │ gzip: 1,198.06 kB\n\n(!) Some chunks are larger than 1800 kB after minification. Consider:\n- Using dynamic import() to code-split the application\n- Use build.rollupOptions.output.manualChunks to improve chunking: https://rollupjs.org/configuration-options/#output-manualchunks\n- Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.\n✓ built in 2.86s\n"
+    },
+    {
+      "command": "npm test",
+      "exitCode": 0,
+      "output": "\n> heart-heist@0.1.0 test\n> vitest run\n\n\n RUN  v3.2.7 /Users/nakamurasatoshi/Documents/Codex/2026-09-13/zi/outputs/heart-heist\n\n ✓ src/tests/foundation.test.ts (3 tests) 2ms\n ✓ src/tests/escape.test.ts (2 tests) 4ms\n ✓ src/tests/combat.test.ts (5 tests) 7ms\n ✓ src/tests/heist.test.ts (9 tests) 9ms\n\n Test Files  4 passed (4)\n      Tests  19 passed (19)\n   Start at  18:33:10\n   Duration  275ms (transform 122ms, setup 0ms, collect 322ms, tests 21ms, environment 0ms, prepare 161ms)\n\n"
+    },
+    {
+      "command": "npm run lint",
+      "exitCode": 0,
+      "output": "\n> heart-heist@0.1.0 lint\n> eslint .\n\n"
+    }
+  ],
+  "buildHashes": [
+    {
+      "path": "index.html",
+      "matches": true
+    },
+    {
+      "path": "assets/cues-DMRweGOE.wav",
+      "matches": true
+    },
+    {
+      "path": "assets/alert-CdVlSp0A.wav",
+      "matches": true
+    },
+    {
+      "path": "assets/ambient-C_bBvXDB.wav",
+      "matches": true
+    },
+    {
+      "path": "assets/index-BMmHAN7r.js",
+      "matches": true
+    },
+    {
+      "path": "assets/index-C-DRdr9F.css",
+      "matches": true
+    },
+    {
+      "path": "assets/escape-Bp2mF2p_.wav",
+      "matches": true
+    }
+  ]
+}

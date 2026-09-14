@@ -1,0 +1,25 @@
+{
+  "viewport": [
+    1920,
+    1080
+  ],
+  "preset": "medium",
+  "browser": "local Chrome",
+  "sampleFPS": [
+    62,
+    60,
+    60,
+    60,
+    58,
+    60,
+    60,
+    60,
+    60,
+    59,
+    61,
+    60
+  ],
+  "average": 60,
+  "min": 58,
+  "note": "Local Chrome development build with procedural presentation and audio; not mobile or general PC hardware evidence."
+}

@@ -1,0 +1,47 @@
+{
+  "source": "Original authored procedural geometry",
+  "license": "CC0-1.0",
+  "units": "meters",
+  "up": "+Y",
+  "forward": "-Z",
+  "registry": "src/rendering/assetRegistry.ts",
+  "assets": [
+    {
+      "id": "heart",
+      "origin": "center of core",
+      "dimensions": [1.5, 1.5, 1.5],
+      "trianglesBudget": 1500,
+      "textures": [],
+      "collision": "transport ray/volume checks; no decorative collider"
+    },
+    {
+      "id": "ship",
+      "origin": "ground-level center of hull",
+      "dimensions": [8.5, 4, 8.5],
+      "trianglesBudget": 3000,
+      "textures": [],
+      "collision": "Rapier vehicle cuboid 5.2 x 2 x 7.6 m"
+    },
+    {
+      "id": "guard",
+      "origin": "body center 1m above floor",
+      "dimensions": [1.2, 1.9, 1],
+      "trianglesBudget": 500,
+      "textures": [],
+      "collision": "authored obstacle-aware navigation and hitscan target volume"
+    },
+    {
+      "id": "harbor",
+      "origin": "world origin",
+      "trianglesBudget": 45000,
+      "textures": [
+        "local canvas labels 768x128",
+        "light pool 64x64",
+        "environment cube 6x64x64"
+      ],
+      "collision": "authored static Rapier boxes and explicit stair ramps"
+    }
+  ],
+  "generationMethod": "Editable Three.js primitives and deterministic canvas textures; no third-party source models or images.",
+  "validation": "Dimensions preserved from gameplay greybox. Scene triangles and draw calls captured by performance tests."
+}
