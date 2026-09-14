@@ -57,7 +57,7 @@ Milestones are recorded below as implemented and verified. Unmeasured criteria w
 - Real guard damage caused defeat; the player recovered to the checkpoint and could move again within five seconds (test passed; recovery implementation delay 1.8 simulation seconds).
 - Production-served browser opened the scene, accepted input, exited to pause and reported no console errors. Production JS does not contain `__HEIST_DEV__` or the route selector.
 - A continuous ~145-second trade playthrough recording completed successfully, showing discovery, dialogue choice, outage, carry/tow transport, installation, ascent and extraction. `docs/evidence/07-gameplay.mp4` is the portable export; browser capture is silent.
-- Final selected browser regression: 7/7 passed in 3.6 minutes. After the visual correction, abyss inspection, presentation/performance and continuous recording passed again (3/3, 2.6 minutes); pointer-lock notice regression also passed (2/2). The PC source commit is recorded in `docs/PC_BASELINE.json` after commit creation.
+- Final selected browser regression: 7/7 passed in 3.6 minutes. After the visual correction, abyss inspection, presentation/performance and continuous recording passed again (3/3, 2.6 minutes); pointer-lock notice regression also passed (2/2). PC source baseline: `bf7d440bbd3e70b15f1ed2552a68fb314a4de2c5`; save schema version 1. `docs/PC_BASELINE.json` links the exact source, performance, screenshots and recording.
 
 ## Scope boundary and evidence gaps
 Prompt 07 explicitly directs: “Do not begin the mobile port in this task.” Prompt 08 has been read and is left as the next task specification; touch UI/PWA/native packaging are not implemented here. No mobile compatibility is claimed.

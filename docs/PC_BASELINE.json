@@ -1,0 +1,41 @@
+{
+  "version": "0.1.0",
+  "date": "2026-09-14",
+  "sourceCommit": "bf7d440bbd3e70b15f1ed2552a68fb314a4de2c5",
+  "repository": "https://github.com/ryomiracle0512-coder/heart-heist",
+  "saveSchemaVersion": 1,
+  "scope": "PC prompts 01–07; mobile prompt 08 deferred",
+  "verification": {
+    "unitTestsPassed": 19,
+    "buildPassed": true,
+    "lintPassed": true,
+    "cleanStartRoutes": [
+      "combat",
+      "stealth",
+      "trade",
+      "mixed"
+    ],
+    "routeTestMethod": "Keyboard traversal without teleport or mission-state injection; developer look helper for direction.",
+    "finalSourceChecks": "docs/evidence/final-source-checks.json",
+    "performance": "docs/evidence/performance-presentation.json",
+    "productionBudget": "docs/evidence/production-budget.json"
+  },
+  "media": {
+    "gameplay": "docs/evidence/07-gameplay.mp4",
+    "durationSeconds": 145.96,
+    "audioIncluded": false,
+    "screenshots": [
+      "docs/evidence/07-clean-combat.png",
+      "docs/evidence/07-clean-stealth.png",
+      "docs/evidence/07-clean-trade.png",
+      "docs/evidence/07-clean-mixed.png",
+      "docs/evidence/07-abyss.png"
+    ]
+  },
+  "evidenceGaps": [
+    "Independent first-time human playtest and two-minute goal comprehension",
+    "20–30 minute first attempt duration",
+    "Representative PC hardware and physical mobile device tests",
+    "Remote GitHub Actions result"
+  ]
+}

@@ -8,7 +8,7 @@
 
 `prompts/00_MASTER.md` と設計資料を確認し、01〜07の順で実装・検証しました。08のモバイル仕様は確認済みですが、07の「Do not begin the mobile port in this task.」に従い、今回の実装はPC版までです。未確認の受け入れ条件は下記に明示しています。
 
-ソースの提出先：[GitHub heart-heist](https://github.com/ryomiracle0512-coder/heart-heist)。PC基準のソースコミットは [PC_BASELINE.json](PC_BASELINE.json) に記録します。GitHubへの登録と、ゲームのWeb公開は別であり、今回は公開ホスティングを行っていません。
+ソースの提出先：[GitHub heart-heist](https://github.com/ryomiracle0512-coder/heart-heist)。PC基準のソースコミットは [`bf7d440`](https://github.com/ryomiracle0512-coder/heart-heist/commit/bf7d440bbd3e70b15f1ed2552a68fb314a4de2c5) です。[PC_BASELINE.json](PC_BASELINE.json) に保存形式・計測・参照画像とともに記録しました。GitHubへの登録と、ゲームのWeb公開は別であり、今回は公開ホスティングを行っていません。
 
 ## 実装内容とソース
 

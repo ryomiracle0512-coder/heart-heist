@@ -63,6 +63,8 @@ npm run test:e2e     # Chromeでブラウザテスト
 
 React、TypeScript、Vite、React Three Fiber、drei、Rapier、Zustand、Howlerを使用。入力変換、ミッション、戦闘、視界、運搬、保存を分離しています。
 
+- [日本語の実装・検証レポートと初回攻略](docs/IMPLEMENTATION_REPORT.md)
+- `docs/PC_BASELINE.json`：PC基準ソースコミットと検証資料
 - `docs/STATUS.md`：各工程の実装と検証事実
 - `docs/DECISIONS.md`：設計判断
 - `docs/RELEASE_CHECKLIST.md`：リリース判定と未確認項目
