@@ -83,3 +83,17 @@ Ask without explaining the intended systems:
 3. Did you see another possible approach?
 4. Did installing the heart feel like gaining a new capability?
 5. Would you replay immediately? Why?
+
+## Accessible play revision gate — 2026-09-21 (not yet passed)
+
+The concrete scenarios and measurements in [Accessible play design v2, section 8](ACCESSIBLE_PLAY_DESIGN.md#8-実装順と合格条件) supplement the gates above.
+
+- Keyboard-only start, look, combat, all four routes, menus, defeat recovery, replay; no mouse events or developer look helper.
+- Touch-only four routes with at most two simultaneous contacts; no keyboard or state shortcuts.
+- Readable 16px body/actions, 14px secondary text; targets at least 48px, primary 56px; safe areas, handedness and larger text validated.
+- Same displayed and executed interaction target; visible, occlusion-safe optional aim assistance.
+- Pointer-lock refusal, pointer cancellation, orientation, backgrounding and audio resume recover safely.
+- PC baseline/save-schema regression and settings migration pass.
+- Physical-device performance, repeated play and first-time usability evidence are required for a mobile release claim.
+
+Design previews and desktop emulation cannot mark the touch-gameplay or hardware gates passed.

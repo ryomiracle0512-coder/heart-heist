@@ -64,3 +64,13 @@ Prompt 07 explicitly directs: “Do not begin the mobile port in this task.” P
 Independent new-player feedback, the target 20–30 minute first attempt, and representative PC/mobile hardware testing remain unverified. Automated traversal times are not human play durations. Procedural art and simple guard navigation are deliberate vertical-slice limits.
 
 - Final video inspection found an opaque ocean surface over the abyss. The ocean now has a real circular opening, visible inner walls and moving lights; decorative skyline was moved behind the shaft. `07-abyss.png` confirms visibility. Final performance remains average 60 / minimum sampled 58 FPS.
+
+## 2026-09-21 — Mouse-free / readable UI / smartphone design revision
+
+- Audited input.ts, App.tsx, MissionHUD.tsx, style.css, Scene.tsx, store.ts, interactables.ts and combat.ts against the new request.
+- Added `ACCESSIBLE_PLAY_DESIGN.md`: keyboard-only controls, two-thumb touch, camera/target assistance, state-dependent fixed controls, readable HUD, lifecycle, settings migration, performance targets and test matrix.
+- Updated GAME_DESIGN, TECH_SPEC, MOBILE_PORT and ACCEPTANCE to remove the old mouse-required design conflict.
+- Added `docs/design/control-preview.html` for local layout review. This is a state-switching UI design prototype, not playable 3D gameplay.
+- Prototype QA: 48 combinations of viewport/state/text size/handedness pass the selected region bounds, overlap and 48px-target checks after layout fixes. Browser exceptions: 0. Five screenshots and reproducible checker are in `docs/design/`. These are prototype-only results.
+- Game runtime and `PC_BASELINE.json` are unchanged. No new keyboard-only/touch completion or mobile performance claim is made.
+- Next implementation milestone: keyboard-only input and menu completion, then readable HUD, touch-only routes and physical-device/PWA validation.

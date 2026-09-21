@@ -47,9 +47,10 @@ Define Zod schemas or equivalent runtime validation for level objects, interacta
 
 ## Input
 
-- Keyboard and mouse are required
+- A keyboard-only completion path is required; mouse input is optional. Landscape smartphone touch is the next release target.
+- The 2026-09-21 [accessible play design](ACCESSIBLE_PLAY_DESIGN.md) defines input profiles, frame-normalized axes, menu focus, semantic HUD labels and settings migration. These changes are specified, not yet implemented.
 - Gamepad support is a later enhancement unless completed without delaying PC acceptance
-- Pointer lock must have visible instructions and a reliable Escape path
+- Pointer lock is used only by the optional mouse profile, with visible instructions and a reliable Escape path. Keyboard and touch play must never depend on acquiring it.
 - Key bindings must be centralized
 - Gameplay consumes semantic actions such as `move`, `look`, `sprint`, `crouch`, `jump`, `primary`, `melee`, `interact`, `tow`, `pause`, and `cancel`.
 - Device adapters convert keyboard, mouse, gamepad, or touch input into the same action state. Gameplay systems must not bind directly to browser events.

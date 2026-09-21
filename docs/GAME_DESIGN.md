@@ -1,5 +1,9 @@
 # Game Design
 
+## Active design revision — 2026-09-21
+
+The next version must be playable entirely with a keyboard and on landscape smartphone touch controls, with readable responsive HUD. See [Accessible play design v2](ACCESSIBLE_PLAY_DESIGN.md) for the authoritative input, camera, UI, interaction and acceptance changes. This is a design revision; the recorded PC executable is not yet ported. Preserve the first-person harbor, three approaches, shared mission rules and controllable ship payoff.
+
 ## Product promise
 
 The player discovers a valuable power source, chooses how to steal it, causes a chain reaction, and uses the stolen power to unlock a visibly larger possibility.

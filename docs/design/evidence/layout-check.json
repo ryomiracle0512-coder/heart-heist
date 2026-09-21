@@ -1,0 +1,344 @@
+{
+  "date": "2026-09-21",
+  "scope": "Design prototype only; not game or physical-device verification",
+  "cases": [
+    {
+      "device": "phone",
+      "scene": "explore",
+      "size": "normal",
+      "hand": "right",
+      "issues": []
+    },
+    {
+      "device": "phone",
+      "scene": "explore",
+      "size": "normal",
+      "hand": "left",
+      "issues": []
+    },
+    {
+      "device": "phone",
+      "scene": "explore",
+      "size": "large",
+      "hand": "right",
+      "issues": []
+    },
+    {
+      "device": "phone",
+      "scene": "explore",
+      "size": "large",
+      "hand": "left",
+      "issues": []
+    },
+    {
+      "device": "phone",
+      "scene": "combat",
+      "size": "normal",
+      "hand": "right",
+      "issues": []
+    },
+    {
+      "device": "phone",
+      "scene": "combat",
+      "size": "normal",
+      "hand": "left",
+      "issues": []
+    },
+    {
+      "device": "phone",
+      "scene": "combat",
+      "size": "large",
+      "hand": "right",
+      "issues": []
+    },
+    {
+      "device": "phone",
+      "scene": "combat",
+      "size": "large",
+      "hand": "left",
+      "issues": []
+    },
+    {
+      "device": "phone",
+      "scene": "carry",
+      "size": "normal",
+      "hand": "right",
+      "issues": []
+    },
+    {
+      "device": "phone",
+      "scene": "carry",
+      "size": "normal",
+      "hand": "left",
+      "issues": []
+    },
+    {
+      "device": "phone",
+      "scene": "carry",
+      "size": "large",
+      "hand": "right",
+      "issues": []
+    },
+    {
+      "device": "phone",
+      "scene": "carry",
+      "size": "large",
+      "hand": "left",
+      "issues": []
+    },
+    {
+      "device": "phone",
+      "scene": "flight",
+      "size": "normal",
+      "hand": "right",
+      "issues": []
+    },
+    {
+      "device": "phone",
+      "scene": "flight",
+      "size": "normal",
+      "hand": "left",
+      "issues": []
+    },
+    {
+      "device": "phone",
+      "scene": "flight",
+      "size": "large",
+      "hand": "right",
+      "issues": []
+    },
+    {
+      "device": "phone",
+      "scene": "flight",
+      "size": "large",
+      "hand": "left",
+      "issues": []
+    },
+    {
+      "device": "small",
+      "scene": "explore",
+      "size": "normal",
+      "hand": "right",
+      "issues": []
+    },
+    {
+      "device": "small",
+      "scene": "explore",
+      "size": "normal",
+      "hand": "left",
+      "issues": []
+    },
+    {
+      "device": "small",
+      "scene": "explore",
+      "size": "large",
+      "hand": "right",
+      "issues": []
+    },
+    {
+      "device": "small",
+      "scene": "explore",
+      "size": "large",
+      "hand": "left",
+      "issues": []
+    },
+    {
+      "device": "small",
+      "scene": "combat",
+      "size": "normal",
+      "hand": "right",
+      "issues": []
+    },
+    {
+      "device": "small",
+      "scene": "combat",
+      "size": "normal",
+      "hand": "left",
+      "issues": []
+    },
+    {
+      "device": "small",
+      "scene": "combat",
+      "size": "large",
+      "hand": "right",
+      "issues": []
+    },
+    {
+      "device": "small",
+      "scene": "combat",
+      "size": "large",
+      "hand": "left",
+      "issues": []
+    },
+    {
+      "device": "small",
+      "scene": "carry",
+      "size": "normal",
+      "hand": "right",
+      "issues": []
+    },
+    {
+      "device": "small",
+      "scene": "carry",
+      "size": "normal",
+      "hand": "left",
+      "issues": []
+    },
+    {
+      "device": "small",
+      "scene": "carry",
+      "size": "large",
+      "hand": "right",
+      "issues": []
+    },
+    {
+      "device": "small",
+      "scene": "carry",
+      "size": "large",
+      "hand": "left",
+      "issues": []
+    },
+    {
+      "device": "small",
+      "scene": "flight",
+      "size": "normal",
+      "hand": "right",
+      "issues": []
+    },
+    {
+      "device": "small",
+      "scene": "flight",
+      "size": "normal",
+      "hand": "left",
+      "issues": []
+    },
+    {
+      "device": "small",
+      "scene": "flight",
+      "size": "large",
+      "hand": "right",
+      "issues": []
+    },
+    {
+      "device": "small",
+      "scene": "flight",
+      "size": "large",
+      "hand": "left",
+      "issues": []
+    },
+    {
+      "device": "pc",
+      "scene": "explore",
+      "size": "normal",
+      "hand": "right",
+      "issues": []
+    },
+    {
+      "device": "pc",
+      "scene": "explore",
+      "size": "normal",
+      "hand": "left",
+      "issues": []
+    },
+    {
+      "device": "pc",
+      "scene": "explore",
+      "size": "large",
+      "hand": "right",
+      "issues": []
+    },
+    {
+      "device": "pc",
+      "scene": "explore",
+      "size": "large",
+      "hand": "left",
+      "issues": []
+    },
+    {
+      "device": "pc",
+      "scene": "combat",
+      "size": "normal",
+      "hand": "right",
+      "issues": []
+    },
+    {
+      "device": "pc",
+      "scene": "combat",
+      "size": "normal",
+      "hand": "left",
+      "issues": []
+    },
+    {
+      "device": "pc",
+      "scene": "combat",
+      "size": "large",
+      "hand": "right",
+      "issues": []
+    },
+    {
+      "device": "pc",
+      "scene": "combat",
+      "size": "large",
+      "hand": "left",
+      "issues": []
+    },
+    {
+      "device": "pc",
+      "scene": "carry",
+      "size": "normal",
+      "hand": "right",
+      "issues": []
+    },
+    {
+      "device": "pc",
+      "scene": "carry",
+      "size": "normal",
+      "hand": "left",
+      "issues": []
+    },
+    {
+      "device": "pc",
+      "scene": "carry",
+      "size": "large",
+      "hand": "right",
+      "issues": []
+    },
+    {
+      "device": "pc",
+      "scene": "carry",
+      "size": "large",
+      "hand": "left",
+      "issues": []
+    },
+    {
+      "device": "pc",
+      "scene": "flight",
+      "size": "normal",
+      "hand": "right",
+      "issues": []
+    },
+    {
+      "device": "pc",
+      "scene": "flight",
+      "size": "normal",
+      "hand": "left",
+      "issues": []
+    },
+    {
+      "device": "pc",
+      "scene": "flight",
+      "size": "large",
+      "hand": "right",
+      "issues": []
+    },
+    {
+      "device": "pc",
+      "scene": "flight",
+      "size": "large",
+      "hand": "left",
+      "issues": []
+    }
+  ],
+  "errors": [],
+  "screenshots": 5
+}

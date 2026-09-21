@@ -7,3 +7,12 @@
 - A milestone's automated evidence is distinct from human playtesting and real-device performance. Do not infer either from emulation.
 - Stair visuals use explicit smooth Rapier ramp colliders, because individual box steps caught the dynamic capsule in browser testing.
 - The M3 browser route tests use development-only repositioning for setup; heart transport itself uses real movement and collision. These are integration tests, not substitutes for a complete clean-start traversal in M7.
+
+## 2026-09-21 — Accessible play design v2
+
+- Treat the supplied AI Game Development Playbook as a process reference, not blanket authorization for its example prompts, paid assets or engine changes.
+- Keep first-person exploration and shared mission rules; add keyboard-only and two-thumb input profiles with optional mouse mode.
+- Use fixed context actions, optional visible-target aim assistance and a shared paused auxiliary-action menu to avoid three-finger requirements.
+- Preserve save schema 1; migrate control/display settings separately.
+- Specify readable text and hit targets before adding new art. Separate world view distance from decorative culling.
+- This request produces an updated design and review prototype. Implementation, actual input-only route evidence and physical-device measurements remain pending. See `ACCESSIBLE_PLAY_DESIGN.md`.

@@ -1,0 +1,843 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>HEART HEIST｜操作・UI設計見本</title>
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        background: #edf1ed;
+        color: #163138;
+        font:
+          16px/1.5 system-ui,
+          -apple-system,
+          "Hiragino Kaku Gothic ProN",
+          sans-serif;
+      }
+      main {
+        max-width: 1240px;
+        margin: auto;
+        padding: 28px;
+      }
+      h1 {
+        font-size: 26px;
+        margin: 0 0 6px;
+        letter-spacing: -0.03em;
+      }
+      .lede {
+        margin: 0 0 22px;
+        color: #456168;
+      }
+      label {
+        display: grid;
+        gap: 5px;
+        font-weight: 650;
+        font-size: 14px;
+      }
+      .controls {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 16px;
+        align-items: end;
+        margin: 20px 0;
+      }
+      select,
+      button {
+        font: inherit;
+      }
+      select {
+        padding: 10px 32px 10px 12px;
+        color: #163138;
+        background: white;
+        border: 1px solid #6c8386;
+        border-radius: 6px;
+        min-height: 48px;
+      }
+      button {
+        cursor: pointer;
+      }
+      button:focus-visible,
+      select:focus-visible {
+        outline: 3px solid #b85811;
+        outline-offset: 3px;
+      }
+      .stage {
+        overflow: auto;
+        padding: 6px 4px 12px;
+      }
+      .screen {
+        position: relative;
+        width: 844px;
+        height: 390px;
+        isolation: isolate;
+        overflow: hidden;
+        background: #173943;
+        color: #f3f7f3;
+        border-radius: 14px;
+        container-type: size;
+        font-size: 16px;
+        --cyan: #a0efdb;
+        --surface: #0b242e;
+        --edge: #638790;
+        --side: 20px;
+        --scale: 1;
+      }
+      .screen.large {
+        --scale: 1.25;
+      }
+      .world {
+        position: absolute;
+        inset: 0;
+        z-index: -1;
+        overflow: hidden;
+        background: linear-gradient(
+          #16323f 0%,
+          #315660 56%,
+          #18313a 56%,
+          #17313b 100%
+        );
+      }
+      .warehouse {
+        position: absolute;
+        left: 24%;
+        top: 28%;
+        width: 52%;
+        height: 45%;
+        background: repeating-linear-gradient(
+          90deg,
+          #29454e 0 5%,
+          #34545c 5.4% 6%
+        );
+        border-top: 7px solid #769191;
+        clip-path: polygon(0 15%, 50% 0, 100% 15%, 100% 100%, 0 100%);
+      }
+      .door {
+        position: absolute;
+        left: 48%;
+        top: 44%;
+        width: 9%;
+        height: 29%;
+        background: #09242e;
+        border: 3px solid #628680;
+      }
+      .light {
+        position: absolute;
+        left: 49%;
+        top: 52%;
+        width: 7%;
+        height: 12%;
+        background: #65ead3;
+        box-shadow: 0 0 40px #6efbe4;
+        clip-path: polygon(50% 0, 100% 30%, 80% 85%, 50% 100%, 15% 80%, 0 30%);
+      }
+      .crate {
+        position: absolute;
+        left: 12%;
+        top: 56%;
+        width: 12%;
+        height: 18%;
+        background: #8a744d;
+        box-shadow: inset 0 0 0 5px #4d493c;
+      }
+      .ground {
+        position: absolute;
+        inset: 73% 0 0;
+        background: linear-gradient(
+          110deg,
+          transparent 30%,
+          #9ae3cf19 40%,
+          transparent 50%
+        );
+      }
+      .top {
+        position: absolute;
+        inset: 16px var(--side) auto;
+        display: flex;
+        gap: 12px;
+        align-items: start;
+      }
+      .objective {
+        padding: 10px 14px;
+        background: var(--surface);
+        border-left: 4px solid var(--cyan);
+        width: 340px;
+      }
+      .objective small {
+        font-size: 14px;
+        color: #a3c4cc;
+      }
+      .objective strong {
+        display: block;
+        font-size: calc(20px * var(--scale));
+        line-height: 1.3;
+        margin: 3px 0;
+      }
+      .objective p {
+        font-size: calc(16px * var(--scale));
+        margin: 4px 0 0;
+        color: #d5e7e8;
+        line-height: 1.4;
+      }
+      .status {
+        margin-left: auto;
+        background: var(--surface);
+        padding: 10px 14px;
+        display: flex;
+        gap: 16px;
+        align-items: center;
+      }
+      .status span {
+        white-space: nowrap;
+        font-size: 14px;
+      }
+      .status b {
+        font-size: calc(22px * var(--scale));
+        display: block;
+        line-height: 1.15;
+      }
+      .pause {
+        color: #f3f7f3;
+        background: var(--surface);
+        border: 1px solid var(--edge);
+        border-radius: 8px;
+        min-width: 56px;
+        min-height: 56px;
+        padding: 6px;
+        font-size: 16px;
+      }
+      .alert {
+        position: absolute;
+        right: var(--side);
+        top: 100px;
+        color: #ffdf99;
+        background: var(--surface);
+        padding: 5px 12px;
+        border-left: 3px solid #ffc769;
+        font-size: calc(14px * var(--scale));
+      }
+      .target {
+        position: absolute;
+        left: 50%;
+        top: 45%;
+        transform: translate(-50%, -50%);
+        text-align: center;
+      }
+      .cross {
+        color: var(--cyan);
+        font-size: 28px;
+        line-height: 1;
+      }
+      .target span {
+        display: block;
+        background: var(--surface);
+        padding: 5px 12px;
+        margin-top: 8px;
+        font-size: calc(16px * var(--scale));
+        white-space: nowrap;
+      }
+      .move {
+        position: absolute;
+        left: var(--side);
+        bottom: 20px;
+        display: flex;
+        gap: 12px;
+        align-items: end;
+      }
+      .stick {
+        width: 112px;
+        height: 112px;
+        border: 2px solid #a6d3d7;
+        border-radius: 50%;
+        background: #0b242ef5;
+        display: grid;
+        place-content: center;
+        text-align: center;
+        color: #edf9f5;
+        font-size: calc(16px * var(--scale));
+        touch-action: none;
+        user-select: none;
+      }
+      .stick b {
+        font-size: 24px;
+        line-height: 1;
+      }
+      .left-buttons {
+        display: grid;
+        gap: 8px;
+      }
+      .game-button {
+        border: 1px solid var(--edge);
+        border-radius: 8px;
+        color: #f3f7f3;
+        background: var(--surface);
+        min-width: 56px;
+        min-height: 48px;
+        padding: 8px 10px;
+        font-size: calc(16px * var(--scale));
+        font-weight: 650;
+        line-height: 1.3;
+      }
+      .game-button:active {
+        background: #294e59;
+      }
+      .actions {
+        position: absolute;
+        bottom: 20px;
+        right: var(--side);
+        width: 204px;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 8px;
+      }
+      .interact {
+        grid-column: 1/-1;
+        min-height: 56px;
+        background: var(--cyan);
+        color: #0b242e;
+        border-color: var(--cyan);
+      }
+      .primary-action {
+        min-height: 64px;
+      }
+      .more {
+        font-size: calc(14px * var(--scale));
+        grid-column: 1/-1;
+      }
+      .notification {
+        position: absolute;
+        bottom: 24px;
+        left: 240px;
+        right: 240px;
+        background: var(--surface);
+        border-top: 2px solid #b3d5d5;
+        padding: 10px 12px;
+        font-size: calc(16px * var(--scale));
+        line-height: 1.45;
+        min-height: 66px;
+      }
+      .notification small {
+        font-size: 14px;
+        color: #a7cad2;
+      }
+      .notification p {
+        margin: 3px 0 0;
+      }
+      .keyboard {
+        display: none;
+        position: absolute;
+        bottom: 20px;
+        left: 20px;
+        right: 20px;
+        padding: 12px;
+        background: var(--surface);
+        font-size: 16px;
+      }
+      .screen.pc .move,
+      .screen.pc .actions {
+        display: none;
+      }
+      .screen.pc .keyboard {
+        display: block;
+      }
+      .screen.pc .notification {
+        bottom: 86px;
+        left: 20px;
+        right: auto;
+        width: 360px;
+      }
+      .screen.pc .objective {
+        width: 440px;
+      }
+      .screen.lefty .move {
+        left: auto;
+        right: var(--side);
+        flex-direction: row-reverse;
+      }
+      .screen.lefty .actions {
+        right: auto;
+        left: var(--side);
+      }
+      .screen.lefty .notification {
+        left: 240px;
+        right: 240px;
+      }
+      .overlay {
+        position: absolute;
+        inset: 0;
+        background: #051a25d9;
+        display: grid;
+        place-items: center;
+        z-index: 4;
+      }
+      .overlay[hidden] {
+        display: none;
+      }
+      .dialog {
+        background: #102f3a;
+        border: 1px solid #8aa7ad;
+        border-radius: 12px;
+        padding: 20px;
+        width: min(510px, 90%);
+        max-height: 95%;
+        overflow: auto;
+      }
+      .dialog h2 {
+        margin: 0 0 12px;
+        font-size: 24px;
+      }
+      .dialog p {
+        font-size: 16px;
+      }
+      .dialog-actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+      }
+      .dialog button {
+        min-height: 48px;
+      }
+      .orientation {
+        display: none;
+        position: absolute;
+        inset: 0;
+        background: #102b35;
+        place-content: center;
+        text-align: center;
+        padding: 24px;
+        z-index: 5;
+      }
+      .orientation strong {
+        font-size: 24px;
+      }
+      .orientation p {
+        font-size: 16px;
+      }
+      .notes {
+        max-width: 900px;
+        margin-top: 18px;
+      }
+      .notes p {
+        margin: 5px 0;
+      }
+      .tag {
+        color: #446168;
+        font-size: 14px;
+        letter-spacing: 0.1em;
+      }
+      .message {
+        min-height: 24px;
+        color: #305764;
+        margin-top: 8px;
+      }
+      .screen.large .objective {
+        width: 350px;
+      }
+      .screen.large .status {
+        gap: 10px;
+        padding-inline: 10px;
+      }
+      .screen.large .notification {
+        font-size: 16px;
+      }
+      .screen.large .more {
+        font-size: 16px;
+      }
+      @container (max-width:740px) {
+        .top {
+          gap: 8px;
+        }
+        .objective {
+          width: 300px;
+        }
+        .objective strong {
+          font-size: 18px;
+        }
+        .objective p {
+          font-size: 16px;
+        }
+        .status {
+          gap: 10px;
+          padding-inline: 8px;
+        }
+        .status b {
+          font-size: 22px;
+        }
+        .status span {
+          font-size: 14px;
+        }
+        .actions {
+          width: 184px;
+        }
+        .move {
+          gap: 8px;
+        }
+        .stick {
+          width: 104px;
+          height: 104px;
+        }
+        .notification {
+          left: 218px;
+          right: 220px;
+          font-size: 16px;
+          padding: 8px;
+        }
+        .notification small {
+          display: none;
+        }
+        .screen.large .objective {
+          width: 300px;
+        }
+        .screen.large .objective strong {
+          font-size: 22px;
+        }
+        .screen.large .objective p {
+          font-size: 20px;
+        }
+        .screen.large .notification {
+          display: none;
+        }
+        .screen.large .target {
+          top: 53%;
+        }
+        .screen.large .status span {
+          font-size: 14px;
+        }
+        .screen.lefty .notification {
+          left: 220px;
+          right: 218px;
+        }
+        .target {
+          top: 46%;
+        }
+      }
+      @container (max-height:359px) {
+        .notification {
+          display: none;
+        }
+        .objective small {
+          display: none;
+        }
+        .top {
+          top: 8px;
+        }
+        .move,
+        .actions {
+          bottom: 12px;
+        }
+        .alert {
+          top: 74px;
+        }
+      }
+      @container (max-width:599px) {
+        .orientation {
+          display: grid;
+        }
+      }
+      @media (max-width: 700px) {
+        main {
+          padding: 16px;
+        }
+        .controls {
+          gap: 10px;
+        }
+        h1 {
+          font-size: 22px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <div class="tag">HEART HEIST / DESIGN REVISION 02</div>
+      <h1>マウスなしで、心臓を盗みにいく。</h1>
+      <p class="lede">
+        操作・UIの画面見本です。表示状態を比較できます。3Dゲームの実装ではありません。
+      </p>
+      <div class="controls">
+        <label
+          >見本の画面<select id="device">
+            <option value="phone">スマホ横 844 × 390</option>
+            <option value="small">小型スマホ横 667 × 375</option>
+            <option value="pc">PC・キーボードのみ</option>
+            <option value="portrait">スマホ縦・停止画面</option>
+          </select></label
+        ><label
+          >場面<select id="scene">
+            <option value="explore">探索</option>
+            <option value="combat">警戒・戦闘</option>
+            <option value="carry">心臓の運搬</option>
+            <option value="flight">船の操縦</option>
+          </select></label
+        ><label
+          >操作配置<select id="hand">
+            <option value="right">右利き</option>
+            <option value="left">左利き</option>
+          </select></label
+        ><label
+          >文字<select id="size">
+            <option value="normal">標準</option>
+            <option value="large">大きめ</option>
+          </select></label
+        >
+      </div>
+      <div class="stage">
+        <section class="screen" id="screen" aria-label="ゲームHUDの設計見本">
+          <div class="world" aria-hidden="true">
+            <div class="warehouse"></div>
+            <div class="door"></div>
+            <div class="crate"></div>
+            <div class="light"></div>
+            <div class="ground"></div>
+          </div>
+          <div class="top">
+            <div class="objective">
+              <small>現在の目的</small><strong id="goal"></strong>
+              <p id="subgoal"></p>
+            </div>
+            <div class="status">
+              <span>体力<b id="health">100</b></span
+              ><span id="metric-name">残弾<b id="metric">8 / 40</b></span>
+            </div>
+            <button class="pause" id="pause" aria-label="一時停止">
+              一時<br />停止
+            </button>
+          </div>
+          <div class="alert" id="alert"></div>
+          <div class="target">
+            <div class="cross" aria-hidden="true">＋</div>
+            <span id="target"></span>
+          </div>
+          <div class="move">
+            <div
+              class="stick"
+              role="img"
+              aria-label="左親指の移動スティック位置"
+            >
+              <b>↕</b>移動
+            </div>
+            <div class="left-buttons">
+              <button class="game-button demo" id="run">走る</button
+              ><button class="game-button demo" id="jump">跳ぶ</button>
+            </div>
+          </div>
+          <div class="actions">
+            <button class="game-button interact demo" id="interact"></button
+            ><button
+              class="game-button primary-action demo"
+              id="action"
+            ></button
+            ><button
+              class="game-button primary-action demo"
+              id="stance"
+            ></button
+            ><button class="game-button more" id="more">ほかの操作</button>
+          </div>
+          <div class="notification">
+            <small>港湾通信</small>
+            <p id="radio"></p>
+          </div>
+          <div class="keyboard" id="keys"></div>
+          <div class="overlay" id="overlay" hidden>
+            <section
+              class="dialog"
+              role="dialog"
+              aria-modal="true"
+              aria-labelledby="dialog-title"
+            >
+              <h2 id="dialog-title">一時停止</h2>
+              <p id="dialog-text">
+                ゲーム時間を止め、落ち着いて操作を選べる設計です。
+              </p>
+              <div class="dialog-actions" id="dialog-actions"></div>
+              <p><button class="game-button" id="close">見本に戻る</button></p>
+            </section>
+          </div>
+          <div class="orientation">
+            <strong>横向きにして遊ぶ</strong>
+            <p>
+              進行を保存して一時停止します。<br />横向きに戻してから「再開」を押します。
+            </p>
+            <span>縦向きでも設定・タイトルを操作可能</span>
+          </div>
+        </section>
+      </div>
+      <div class="message" id="message" role="status">
+        ボタンを押すと役割を確認できます。
+      </div>
+      <div class="notes">
+        <p>
+          <b>配置：</b
+          >目的と危険は上、操作は下、見る場所は中央。主操作の位置を保ち、運搬・飛行に応じて動詞を切り替えます。
+        </p>
+        <p>
+          <b>操作：</b
+          >キーボードはWASD＋矢印＋J。タッチは左スティック＋右のドラッグ。射撃ボタン上でもドラッグして照準を動かす設計です。
+        </p>
+        <p>
+          設計上の寸法見本であり、実機の押しやすさ・照準・性能はゲームへの実装後に検証します。<a
+            href="../ACCESSIBLE_PLAY_DESIGN.md"
+            >設計書を読む</a
+          >
+        </p>
+      </div>
+    </main>
+    <script>
+      const $ = (id) => document.getElementById(id);
+      const states = {
+        explore: {
+          goal: "倉庫の心臓を探す",
+          sub: "正面・整備口・仲介人を調べる",
+          alert: "◇ 通常警備",
+          target: "ナギ · 2 m",
+          interact: "話す",
+          action: "撃つ",
+          stance: "しゃがむ",
+          radio: "あの青い光が目標だ。",
+          health: "100",
+          metric: "8 / 40",
+        },
+        combat: {
+          goal: "心臓室への道を開く",
+          sub: "見つかった。遮蔽物へ移動",
+          alert: "！ 発見された",
+          target: "警備員 · 12 m",
+          interact: "調べる",
+          action: "撃つ",
+          stance: "しゃがむ",
+          radio: "狙いの補助：対象を表示中",
+          health: "72",
+          metric: "5 / 32",
+        },
+        carry: {
+          goal: "心臓を船へ運ぶ",
+          sub: "東の貨物出口が開いた",
+          alert: "！ 封鎖中",
+          target: "船の接続口 · 18 m",
+          interact: "調べる",
+          action: "牽引へ",
+          stance: "しゃがむ",
+          radio: "両手が塞がっている。",
+          health: "91",
+          metric: "運搬中",
+        },
+        flight: {
+          goal: "北の光のゲートへ",
+          sub: "高度10 m以上で港を越える",
+          alert: "↑ 脱出中",
+          target: "脱出ゲート · 42 m",
+          interact: "上昇",
+          action: "下降",
+          stance: "加速",
+          radio: "指を離すと高度を保つ。",
+          health: "91",
+          metric: "12 m",
+        },
+      };
+      let previousFocus = null;
+      function render() {
+        const s = states[$("scene").value],
+          device = $("device").value;
+        $("screen").className =
+          "screen" +
+          (device === "pc" ? " pc" : "") +
+          ($("hand").value === "left" ? " lefty" : "") +
+          ($("size").value === "large" ? " large" : "");
+        const dims = {
+          phone: [844, 390],
+          small: [667, 375],
+          pc: [1100, 620],
+          portrait: [390, 660],
+        }[device];
+        $("screen").style.width = dims[0] + "px";
+        $("screen").style.height = dims[1] + "px";
+        for (const [id, key] of Object.entries({
+          goal: "goal",
+          subgoal: "sub",
+          alert: "alert",
+          target: "target",
+          interact: "interact",
+          action: "action",
+          stance: "stance",
+          radio: "radio",
+          health: "health",
+        }))
+          $(id).textContent = s[key];
+        $("metric-name").textContent =
+          $("scene").value === "flight"
+            ? "高度"
+            : $("scene").value === "carry"
+              ? "心臓"
+              : "残弾";
+        const b = document.createElement("b");
+        b.textContent = s.metric;
+        $("metric-name").append(b);
+        $("run").textContent = $("scene").value === "flight" ? "加速" : "走る";
+        $("jump").textContent = $("scene").value === "flight" ? "水平" : "跳ぶ";
+        $("keys").textContent =
+          $("scene").value === "flight"
+            ? "WASD 移動　矢印 旋回　Space 上昇　X 下降　Shift 加速　Esc 停止"
+            : "WASD 移動　矢印 視点　J 射撃　K 狙い補助　E 調べる　Esc 停止";
+        $("message").textContent =
+          "表示を変更しました。ゲーム操作の完成品ではなく、配置とラベルの見本です。";
+      }
+      for (const id of ["device", "scene", "hand", "size"])
+        $(id).addEventListener("change", render);
+      function openPanel(more) {
+        previousFocus = document.activeElement;
+        $("dialog-title").textContent = more ? "ほかの操作" : "一時停止";
+        $("dialog-actions").replaceChildren();
+        for (const label of more
+          ? ["装填", "近接", "牽引", "降ろす"]
+          : ["操作と設定", "通信ログ"]) {
+          const b = document.createElement("button");
+          b.className = "game-button";
+          b.textContent = label;
+          b.onclick = () => {
+            $("dialog-text").textContent =
+              label + "を選択しました。実ゲームでは条件を確認して実行します。";
+          };
+          $("dialog-actions").append(b);
+        }
+        $("dialog-text").textContent =
+          "ゲーム時間を止め、落ち着いて操作を選べる設計です。";
+        $("overlay").hidden = false;
+        $("close").focus();
+      }
+      function closePanel() {
+        $("overlay").hidden = true;
+        previousFocus?.focus();
+      }
+      $("pause").onclick = () => openPanel(false);
+      $("more").onclick = () => openPanel(true);
+      $("close").onclick = closePanel;
+      for (const b of document.querySelectorAll(".demo"))
+        b.onclick = () => {
+          $("message").textContent =
+            "「" +
+            b.textContent +
+            "」：このボタン位置で行動します。見本なのでゲーム状態は変更しません。";
+        };
+      document.addEventListener("keydown", (e) => {
+        if ($("overlay").hidden) return;
+        if (e.key === "Escape") closePanel();
+        if (e.key === "Tab") {
+          const all = [...$("overlay").querySelectorAll("button")];
+          const first = all[0],
+            last = all.at(-1);
+          if (e.shiftKey && document.activeElement === first) {
+            e.preventDefault();
+            last.focus();
+          } else if (!e.shiftKey && document.activeElement === last) {
+            e.preventDefault();
+            first.focus();
+          }
+        }
+      });
+      render();
+    </script>
+  </body>
+</html>
