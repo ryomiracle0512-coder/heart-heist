@@ -43,6 +43,7 @@ export async function interact(page: Page) {
 }
 export async function begin(page: Page) {
   await page.goto("/");
+  await page.getByLabel("操作方法", { exact: true }).selectOption("mouse");
   await expect(page.getByRole("button", { name: /潜入を開始/ })).toBeEnabled();
   await page.getByRole("button", { name: /潜入を開始/ }).click();
 }

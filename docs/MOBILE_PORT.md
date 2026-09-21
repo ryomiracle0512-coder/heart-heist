@@ -1,5 +1,7 @@
 # PC First, Mobile Second
 
+> 2026-09-22更新：タッチ操作・キーボード視点・HUDをゲームに実装しました。[実装と検証の範囲](devlog/2026-09-22.md)と[遊び方](MOBILE_PLAY_GUIDE.md)を参照してください。以下の設計記録には今回未実装の項目も含まれます。
+
 ## Design revision — 2026-09-21
 
 The user has requested mouse-free play, a readable UI and smartphone play. [Accessible play design v2](ACCESSIBLE_PLAY_DESIGN.md) is the current port specification and overrides conflicting preliminary recommendations below. It adds keyboard-only completion, fixed context actions, two-thumb aiming/firing, landscape play with portrait pause, minimum text/target sizes, left-handed controls, and measurable gates. Current state: design and UI review prototype only; touch gameplay/PWA are not implemented. The earlier Prompt 07 scope restriction described the completed PC task, not a prohibition on this new request. The recorded PC baseline remains the regression reference; its human and hardware evidence gaps remain open.

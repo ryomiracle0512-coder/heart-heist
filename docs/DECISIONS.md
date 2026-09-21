@@ -16,3 +16,11 @@
 - Preserve save schema 1; migrate control/display settings separately.
 - Specify readable text and hit targets before adding new art. Separate world view distance from decorative culling.
 - This request produces an updated design and review prototype. Implementation, actual input-only route evidence and physical-device measurements remain pending. See `ACCESSIBLE_PLAY_DESIGN.md`.
+
+## 2026-09-22 — Playable online touch edition
+
+- Ship online browser play and an in-game static guide before PWA/offline or native packaging. Preserve owner-only hosting access.
+- Touch interaction taps share the existing nearest+occlusion resolver and mission rules. Aim assist only rotates toward a visible nearby guard; no automatic fire or hit-rule bypass.
+- Keep keyboard/mouse baseline behavior available; settings v2 and mission schema v1 are separate.
+- Use independent source ownership for held actions and release all inputs on interruption.
+- Emulator touch-only route completion is separate from physical-device compatibility/performance.

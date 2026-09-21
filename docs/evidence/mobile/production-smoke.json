@@ -1,0 +1,9 @@
+{
+  "browser": "Chrome, mobile emulation; not physical phone",
+  "productionBoot": true,
+  "touchControls": true,
+  "pause": true,
+  "help": true,
+  "helpHorizontalOverflow": false,
+  "errors": []
+}

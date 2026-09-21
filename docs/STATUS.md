@@ -74,3 +74,11 @@ Independent new-player feedback, the target 20–30 minute first attempt, and re
 - Prototype QA: 48 combinations of viewport/state/text size/handedness pass the selected region bounds, overlap and 48px-target checks after layout fixes. Browser exceptions: 0. Five screenshots and reproducible checker are in `docs/design/`. These are prototype-only results.
 - Game runtime and `PC_BASELINE.json` are unchanged. No new keyboard-only/touch completion or mobile performance claim is made.
 - Next implementation milestone: keyboard-only input and menu completion, then readable HUD, touch-only routes and physical-device/PWA validation.
+
+## 2026-09-22 — Playable touch Web edition
+
+- Touch adapter, analog stick, simultaneous look/fire, contextual transport and ship controls, optional mouse lock, keyboard camera/fire, accessible settings/HUD and in-game guide implemented.
+- 25 unit tests, build and lint pass; all four clean-start touch routes completed without runtime/mission manipulation. Development API is read-only in these tests.
+- Layout/lifecycle/keyboard checks pass at 844×390 and 667×375; production boot and guide have zero captured browser errors.
+- Sources and evidence: `docs/devlog/2026-09-22.md`, `docs/evidence/mobile/`, `docs/MOBILE_PLAY_GUIDE.md`, `public/help.html`.
+- This is the online Web edition. Full design-v2 release gate is not claimed: physical iOS/Android testing, native packaging, PWA/offline and arbitrary control remapping remain outstanding.

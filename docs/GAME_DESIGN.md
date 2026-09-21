@@ -1,5 +1,7 @@
 # Game Design
 
+> 2026-09-22更新：タッチ操作・キーボード視点・HUDをゲームに実装しました。[実装と検証の範囲](devlog/2026-09-22.md)と[遊び方](MOBILE_PLAY_GUIDE.md)を参照してください。以下の設計記録には今回未実装の項目も含まれます。
+
 ## Active design revision — 2026-09-21
 
 The next version must be playable entirely with a keyboard and on landscape smartphone touch controls, with readable responsive HUD. See [Accessible play design v2](ACCESSIBLE_PLAY_DESIGN.md) for the authoritative input, camera, UI, interaction and acceptance changes. This is a design revision; the recorded PC executable is not yet ported. Preserve the first-person harbor, three approaches, shared mission rules and controllable ship payoff.

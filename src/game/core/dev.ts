@@ -8,6 +8,8 @@ export const devTools = {
   },
   snapshot: () => ({
     position: [...runtime.position],
+    yaw: runtime.yaw,
+    pitch: runtime.pitch,
     fps: runtime.fps,
     drawCalls: runtime.drawCalls,
     triangles: runtime.triangles,

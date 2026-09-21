@@ -1,11 +1,38 @@
 import { useGame, dispatch } from "../game/state/gameStore";
-import { runtime } from "../game/state/store";
+import { resumeGame } from "../game/core/session";
+import { runtime, useShell } from "../game/state/store";
 import { worldSignals } from "../game/systems/escape";
 import { objective } from "../game/state/mission";
 import { nearest, prompt } from "../game/content/interactables";
 import { occluded } from "../game/systems/spatial";
 export function MissionHUD({ pause }: { pause: () => void }) {
   const { mission: s, saveStatus } = useGame();
+  const mode = useShell((x) => x.settings.inputMode);
+  const touch = mode === "touch";
+  const text = (value: string) =>
+    touch
+      ? value
+          .replace(
+            "Qで心臓を降ろすか、Tで牽引に切り替える",
+            "「ほかの操作」から降ろすか、「牽引へ」を選ぶ",
+          )
+          .replace(
+            "Tで牽引 / Qで降ろす",
+            "「牽引へ」で運ぶ / 「ほかの操作」から降ろす",
+          )
+          .replace("Rで装填する", "「ほかの操作」から装填する")
+          .replace("Eで持ち上げよう", "「持ち上げる」をタップしよう")
+          .replace(
+            "Eで持ち直す / Tで牽引",
+            "近づいて持ち直す / 「ほかの操作」から牽引",
+          )
+          .replace(
+            "Space 上昇 / WASD 操縦 / Shift ブースト",
+            "「上昇」で浮き、左スティックで移動。「加速」でブースト",
+          )
+          .replace(/Eで点火/g, "「点火」をタップ")
+      : value;
+
   const active = nearest(s, runtime.position);
   const item =
     active && !occluded(runtime.position, active.position, s, active.id)
@@ -15,10 +42,7 @@ export function MissionHUD({ pause }: { pause: () => void }) {
     choice: "accept" | "refuse" | "deliver" | "betray" | "leave",
   ) => {
     dispatch({ type: "choice", choice });
-    document
-      .querySelector("canvas")
-      ?.requestPointerLock?.()
-      ?.catch(() => {});
+    resumeGame();
   };
   return (
     <>
@@ -26,7 +50,7 @@ export function MissionHUD({ pause }: { pause: () => void }) {
         <span className="brand">HH / 01</span>
         <div>
           <small>現在の目的</small>
-          <p>{objective(s)}</p>
+          <p>{text(objective(s))}</p>
           <span className={`alert alert-${s.alert}`}>
             {worldSignals[s.alert].label}
           </span>
@@ -38,18 +62,25 @@ export function MissionHUD({ pause }: { pause: () => void }) {
       <div className="reticle">{item ? "◇" : "·"}</div>
       {item && !s.dialogue && s.alert !== "ESCAPE" && (
         <div className="interaction">
-          <kbd>E</kbd> {prompt(s, item.id)}
+          {!touch && <kbd>E</kbd>}{" "}
+          {touch
+            ? prompt(s, item.id).replace(" / T 牽引", "")
+            : prompt(s, item.id)}
         </div>
       )}
       <div className="radio" role="status">
         <small>港湾通信 / FIELD NOTES</small>
-        <p>{s.message}</p>
+        <p>{text(s.message)}</p>
       </div>
       {s.alert === "ESCAPE" && (
         <div className="interaction">
           {s.ship.ignited
-            ? "WASD 操縦 · Space 上昇 · X 下降 · Shift 加速"
-            : "E エンジン点火"}{" "}
+            ? touch
+              ? "上昇・下降ボタンで操縦"
+              : "WASD 操縦 · Space 上昇 · X 下降 · Shift 加速"
+            : touch
+              ? "点火をタップ"
+              : "E エンジン点火"}{" "}
           / 高度 {Math.max(0, Math.round(s.ship.position[1]))} m
         </div>
       )}
@@ -63,16 +94,16 @@ export function MissionHUD({ pause }: { pause: () => void }) {
           </span>
           <span>
             {s.heart.mode === "carried"
-              ? "心臓：運搬中 · Q 降ろす"
+              ? "心臓：運搬中"
               : s.heart.mode === "towed"
-                ? "心臓：牽引中 · T 解除"
-                : "E 調べる · T 牽引 · F 近接"}
+                ? "心臓：牽引中"
+                : "調べる・運ぶ・接続する"}
           </span>
         </div>
         <div>
           {saveStatus}
           <br />
-          ESC 一時停止
+          {touch ? "" : "ESC 一時停止"}
         </div>
       </div>
       {s.dialogue && (

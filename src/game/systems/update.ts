@@ -27,7 +27,9 @@ export function updateGame(dt: number) {
   transportStep(s, s.player.position, runtime.yaw);
   if (
     s.heart.mode === "towed" &&
-    (input.held.has("forward") || input.held.has("back"))
+    (input.held.has("forward") ||
+      input.held.has("back") ||
+      Math.hypot(input.moveX, input.moveZ) > 0.1)
   )
     emitNoise(s, s.heart.position, 18);
   updateEscape(s, dt, runtime.position);

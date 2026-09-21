@@ -12,8 +12,9 @@ import { useGame } from "../game/state/gameStore";
 import { updateGame } from "../game/systems/update";
 import { ViewModel } from "./Actors";
 import { Harbor } from "./Harbor";
+import { assistAim } from "../game/systems/aim";
 import { spawn } from "../game/levels/harbor";
-import { input, consume } from "../game/core/input";
+import { input, consume, movement, lookDelta } from "../game/core/input";
 import { runtime, useShell, qualityPresets } from "../game/state/store";
 const direction = new Vector3();
 const up = new Vector3(0, 1, 0);
@@ -70,16 +71,19 @@ function Player() {
       accumulator.current -= 0.1;
     }
 
-    runtime.yaw -= input.lookX * 0.002 * shell.settings.sensitivity;
-    runtime.pitch = Math.max(
-      -1.3,
-      Math.min(
-        1.3,
-        runtime.pitch - input.lookY * 0.002 * shell.settings.sensitivity,
-      ),
-    );
-    input.lookX = 0;
-    input.lookY = 0;
+    const look = lookDelta(dt, shell.settings.sensitivity);
+    runtime.yaw += look.yaw;
+    runtime.pitch = Math.max(-1.3, Math.min(1.3, runtime.pitch + look.pitch));
+    if (consume("center")) runtime.pitch = 0;
+    const aimRequested = consume("aim");
+    if (
+      shell.settings.aimAssist &&
+      shell.settings.inputMode !== "mouse" &&
+      (aimRequested || input.held.has("primary")) &&
+      Math.abs(look.yaw) + Math.abs(look.pitch) < 0.001
+    )
+      assistAim(useGame.getState().mission, dt);
+    const axes = movement();
     const mission = useGame.getState().mission;
     if (mission.alert === "ESCAPE") {
       if (!vehicle.current) {
@@ -109,14 +113,7 @@ function Player() {
       }
       const boosted = useGame.getState().mission.ship.boost > 4;
       const speed = boosted ? 15 : 7;
-      direction
-        .set(
-          Number(input.held.has("right")) - Number(input.held.has("left")),
-          0,
-          Number(input.held.has("back")) - Number(input.held.has("forward")),
-        )
-        .normalize()
-        .applyAxisAngle(up, runtime.yaw);
+      direction.set(axes.x, 0, axes.z).applyAxisAngle(up, runtime.yaw);
       const rise =
         Number(input.held.has("jump")) - Number(input.held.has("descend"));
       b.setLinvel(
@@ -156,9 +153,9 @@ function Player() {
       b.setLinvel({ x: 0, y: 0, z: 0 }, true);
       return;
     }
-    const x = Number(input.held.has("right")) - Number(input.held.has("left")),
-      z = Number(input.held.has("back")) - Number(input.held.has("forward"));
-    direction.set(x, 0, z).normalize().applyAxisAngle(up, runtime.yaw);
+    const x = axes.x,
+      z = axes.z;
+    direction.set(x, 0, z).applyAxisAngle(up, runtime.yaw);
     const burden = useGame.getState().mission.heart.mode;
     const speed =
       burden === "carried"
@@ -223,10 +220,10 @@ export function Scene() {
       camera={{
         fov: 70,
         near: 0.08,
-        far: qualityPresets[quality].drawDistance,
+        far: 150,
         position: [18, 12, 42],
       }}
-      gl={{ antialias: true }}
+      gl={{ antialias: quality !== "low" }}
     >
       <color attach="background" args={["#122b35"]} />
       <fog

@@ -1,0 +1,60 @@
+{
+  "checkedAt": "2026-09-22T08:30:12.734418+09:00",
+  "checks": [
+    {
+      "command": "npm test",
+      "exitCode": 0,
+      "output": "\n> heart-heist@0.1.0 test\n> vitest run\n\n\n RUN  v3.2.7 /Users/nakamurasatoshi/Documents/GitHub/heart-heist\n\n ✓ src/tests/foundation.test.ts (3 tests) 2ms\n ✓ src/tests/escape.test.ts (2 tests) 5ms\n ✓ src/tests/combat.test.ts (5 tests) 7ms\n ✓ src/tests/mobile-input.test.ts (6 tests) 5ms\n ✓ src/tests/heist.test.ts (9 tests) 10ms\n\n Test Files  5 passed (5)\n      Tests  25 passed (25)\n   Start at  08:30:11\n   Duration  449ms (transform 208ms, setup 0ms, collect 616ms, tests 28ms, environment 1ms, prepare 362ms)\n\n"
+    },
+    {
+      "command": "npm run lint",
+      "exitCode": 0,
+      "output": "\n> heart-heist@0.1.0 lint\n> eslint .\n\n"
+    }
+  ],
+  "productionFiles": [
+    {
+      "path": "dist/help.html",
+      "bytes": 11187,
+      "sha256": "a1d54347c55a2da787dc893b047a664e6bb2157ce8ac95dbf80695ccfa191adf"
+    },
+    {
+      "path": "dist/index.html",
+      "bytes": 578,
+      "sha256": "063333710526f79cb7f17b4797d97df1bc2d86fbf5002a1e59d93abe550f0ac6"
+    },
+    {
+      "path": "dist/assets/index-Gi2f1Jl8.css",
+      "bytes": 12094,
+      "sha256": "0d5ef963132d8d6af77d96c2a0dccaab650326ac71447e3188ab592791e49729"
+    },
+    {
+      "path": "dist/assets/cues-DMRweGOE.wav",
+      "bytes": 298158,
+      "sha256": "d19b4f51635843e3df534d40e250b44af0c81bcbbde0508b43840d4531a041b9"
+    },
+    {
+      "path": "dist/assets/alert-CdVlSp0A.wav",
+      "bytes": 264644,
+      "sha256": "63308504e559616b0963d2ec490237b42a550604dee5c8eb7b555cda66ca5cc2"
+    },
+    {
+      "path": "dist/assets/ambient-C_bBvXDB.wav",
+      "bytes": 264644,
+      "sha256": "114991777d6d318e287c64de305b3bce1c5c32d34a6d4ba5f9017a707df0d828"
+    },
+    {
+      "path": "dist/assets/escape-Bp2mF2p_.wav",
+      "bytes": 264644,
+      "sha256": "25d6d7d7d96c9350b83704829027a800b35797795f81e7fa82c9896306f82585"
+    },
+    {
+      "path": "dist/assets/index-CM3Gh4Nv.js",
+      "bytes": 3539801,
+      "sha256": "7bca8eaf9a430a69ab9fdc022b031668ca3912bcf5b845578bea0f1af05cb8ef"
+    }
+  ],
+  "totalBytes": 4655750,
+  "gzipBytes": 2106908,
+  "developerToolsExcluded": true
+}

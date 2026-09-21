@@ -1,5 +1,5 @@
 import { useGame, newRun } from "../game/state/gameStore";
-import { useShell } from "../game/state/store";
+import { resumeGame } from "../game/core/session";
 const labels: Record<string, string> = {
   "forced-entry": "正面を強行突破",
   "side-circuit": "側面回路を停止",
@@ -57,11 +57,7 @@ export function Results() {
           className="primary"
           onClick={() => {
             newRun();
-            useShell.getState().setScreen("play");
-            document
-              .querySelector("canvas")
-              ?.requestPointerLock?.()
-              ?.catch(() => {});
+            resumeGame();
           }}
         >
           別の方法でもう一度 ↗

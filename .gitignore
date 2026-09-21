@@ -7,3 +7,6 @@ playwright-report/
 
 # Retain the smaller portable MP4 export in Git.
 docs/evidence/*.webm
+# Also ignore a local dependency symlink.
+node_modules
+.sites-runtime/

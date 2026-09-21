@@ -7,13 +7,19 @@ import {
   Suspense,
 } from "react";
 import { AudioSystem } from "../audio/AudioSystem";
-import { sound } from "../audio/sound";
 import { Results } from "../ui/Results";
 import { MissionHUD } from "../ui/MissionHUD";
 import { useGame, newRun, loadRun, checkpoint } from "../game/state/gameStore";
 import { saves } from "../game/core/save";
 import { Scene } from "../rendering/Scene";
-import { attachKeyboard, clearInput } from "../game/core/input";
+import {
+  attachKeyboard,
+  clearInput,
+  tap,
+  type Action,
+} from "../game/core/input";
+import { TouchControls } from "../ui/TouchControls";
+import { pauseGame, resumeGame } from "../game/core/session";
 import { useShell } from "../game/state/store";
 import "../ui/style.css";
 const DebugPanel = import.meta.env.DEV
@@ -42,49 +48,64 @@ class ErrorBoundary extends Component<
   }
 }
 export function App() {
-  const shell = useShell();
-  const mission = useGame((s) => s.mission);
-  const save = saves.load();
-  const [controls, setControls] = useState(false);
+  const shell = useShell(),
+    mission = useGame((s) => s.mission),
+    save = saves.load();
+  const [controls, setControls] = useState(false),
+    [portrait, setPortrait] = useState(window.innerWidth < window.innerHeight);
   const [, tick] = useState(0);
-  const pause = () => {
-    if (
-      useShell.getState().screen === "play" &&
-      !useGame.getState().mission.dialogue
-    ) {
-      checkpoint();
-      useShell.getState().setScreen("pause");
-      clearInput();
-      document.exitPointerLock?.();
-    }
-  };
   useEffect(() => {
-    const detach = attachKeyboard(pause, () => {
-      if (import.meta.env.DEV) useShell.setState((s) => ({ debug: !s.debug }));
-    });
+    const detach = attachKeyboard(
+      pauseGame,
+      () => {
+        if (import.meta.env.DEV)
+          useShell.setState((s) => ({ debug: !s.debug }));
+      },
+      () =>
+        useShell.getState().screen === "play" &&
+        !useGame.getState().mission.dialogue,
+      () => useShell.getState().settings.inputMode === "mouse",
+    );
     const hidden = () => {
-      if (document.hidden) pause();
+      if (document.hidden) pauseGame();
     };
     const lock = () => {
-      if (!document.pointerLockElement) pause();
-      else useShell.setState({ notice: "" });
+      if (useShell.getState().settings.inputMode === "mouse") {
+        if (
+          !document.pointerLockElement &&
+          !useGame.getState().mission.dialogue
+        )
+          pauseGame();
+        else useShell.setState({ notice: "" });
+      }
+    };
+    const resize = () => {
+      const vertical = window.innerWidth < window.innerHeight;
+      setPortrait(vertical);
+      if (vertical && useShell.getState().settings.inputMode === "touch")
+        pauseGame();
     };
     document.addEventListener("visibilitychange", hidden);
     document.addEventListener("pointerlockchange", lock);
-    window.addEventListener("blur", pause);
-    const timer = setInterval(() => tick((t) => t + 1), 500);
+    window.addEventListener("blur", pauseGame);
+    window.addEventListener("pagehide", pauseGame);
+    window.addEventListener("resize", resize);
+    const timer = setInterval(() => tick((x) => x + 1), 250);
     return () => {
       detach();
       clearInterval(timer);
       document.removeEventListener("visibilitychange", hidden);
       document.removeEventListener("pointerlockchange", lock);
-      window.removeEventListener("blur", pause);
+      window.removeEventListener("blur", pauseGame);
+      window.removeEventListener("pagehide", pauseGame);
+      window.removeEventListener("resize", resize);
     };
   }, []);
   useEffect(() => {
     if (mission.alert === "COMPLETE") {
       checkpoint();
-      useShell.getState().setScreen("results");
+      shell.setScreen("results");
+      clearInput();
       document.exitPointerLock?.();
     }
   }, [mission.alert]);
@@ -94,47 +115,65 @@ export function App() {
       document.exitPointerLock?.();
     }
   }, [mission.dialogue]);
+  useEffect(() => {
+    clearInput();
+    if (shell.settings.inputMode !== "mouse") document.exitPointerLock?.();
+  }, [shell.settings.inputMode]);
+  useEffect(() => {
+    const selector = mission.dialogue
+      ? ".dialogue button"
+      : shell.screen === "results"
+        ? ".results button"
+        : ".menu-actions button:not(:disabled)";
+    document.querySelector<HTMLButtonElement>(selector)?.focus();
+  }, [shell.screen, mission.dialogue]);
+  const touch = shell.settings.inputMode === "touch",
+    blocked = touch && portrait;
   const start = () => {
-    sound.start();
-    shell.setScreen("play");
+    if (blocked) return;
+    resumeGame();
     setControls(false);
-    document
-      .querySelector("canvas")
-      ?.requestPointerLock?.()
-      ?.catch(() => {
-        useShell.setState({
-          notice: "画面をクリックして視点操作を開始してください。",
-        });
-      });
+  };
+  const extra = (action: Action) => {
+    start();
+    tap(action);
   };
   return (
     <ErrorBoundary>
       <div
-        className="game"
+        className={`game mode-${shell.settings.inputMode}${shell.settings.largeText ? " large-text" : ""}`}
         onClick={(e) => {
           if (
+            shell.settings.inputMode === "mouse" &&
             e.target instanceof HTMLCanvasElement &&
-            useShell.getState().screen === "play" &&
+            shell.screen === "play" &&
             !document.pointerLockElement &&
-            !useGame.getState().mission.dialogue
+            !mission.dialogue
           )
             void e.target.requestPointerLock?.()?.catch(() => {});
         }}
       >
         <Scene />
         <AudioSystem />
-        {shell.notice && (
-          <div className="audio-note" role="status">
-            {shell.notice}
+        {!shell.ready && (
+          <div className="loading" role="status">
+            港への航路を準備中…
           </div>
         )}
-        {!shell.ready && <div className="loading">港への航路を準備中…</div>}
-        {shell.screen === "play" && <MissionHUD pause={pause} />}
+        {shell.notice && shell.settings.inputMode === "mouse" && (
+          <div className="audio-note">{shell.notice}</div>
+        )}
+        {shell.screen === "play" && (
+          <>
+            <MissionHUD pause={pauseGame} />
+            {touch && !mission.dialogue && !blocked && <TouchControls />}
+          </>
+        )}
         {shell.screen === "results" && <Results />}
         {(shell.screen === "title" || shell.screen === "pause") && (
           <div className="veil">
             <section className="menu">
-              <div className="eyebrow">AN INDUSTRIAL FANTASY HEIST</div>
+              <div className="eyebrow">HEART HEIST / THE NIGHT HARBOR</div>
               <h1>
                 HEART
                 <br />
@@ -142,24 +181,46 @@ export function App() {
               </h1>
               <p className="tagline">世界の心臓を盗め。</p>
               <p className="intro">
-                夜の港。眠る廃船。
+                心臓を奪い、船に接続して空へ脱出。
                 <br />
-                あの光を奪えば、空はもう一度あなたのものになる。
+                戦闘・潜入・取引、方法はあなた次第。
               </p>
+              <label className="mode-select">
+                操作方法
+                <select
+                  aria-label="操作方法"
+                  value={shell.settings.inputMode}
+                  onChange={(e) =>
+                    shell.setSettings({
+                      inputMode: e.target.value as
+                        "touch" | "mouse" | "keyboard",
+                    })
+                  }
+                >
+                  <option value="touch">タッチ（スマホ）</option>
+                  <option value="keyboard">キーボードだけ</option>
+                  <option value="mouse">マウス＋キーボード</option>
+                </select>
+              </label>
+              {blocked && (
+                <p className="orientation-note">
+                  スマホを横向きにしてください。横向きで再開できます。
+                </p>
+              )}
               <div className="menu-actions">
                 <button
                   className="primary"
-                  disabled={!shell.ready}
+                  disabled={!shell.ready || blocked}
                   onClick={() => {
                     if (shell.screen === "title") newRun();
                     start();
                   }}
                 >
-                  {shell.screen === "pause" ? "港に戻る" : "潜入を開始"}{" "}
-                  <span>↗</span>
+                  {shell.screen === "pause" ? "港に戻る" : "潜入を開始"} ↗
                 </button>
                 {shell.screen === "title" && save.kind === "ok" && (
                   <button
+                    disabled={blocked}
                     onClick={() => {
                       if (loadRun()) start();
                     }}
@@ -170,8 +231,17 @@ export function App() {
                 <button onClick={() => setControls(!controls)}>
                   操作と設定
                 </button>
+                <a
+                  className="help-link"
+                  href="./help.html"
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  遊び方・攻略
+                </a>
                 {shell.screen === "pause" && (
                   <button
+                    disabled={blocked}
                     onClick={() => {
                       newRun();
                       start();
@@ -181,16 +251,32 @@ export function App() {
                   </button>
                 )}
               </div>
+              {shell.screen === "pause" && !mission.dialogue && (
+                <div className="extra-actions" aria-label="補助操作">
+                  <p>操作を選ぶとゲームへ戻ります</p>
+                  {(
+                    [
+                      ["reload", "装填"],
+                      ["melee", "近接攻撃"],
+                      ["tow", "牽引／解除"],
+                      ["cancel", "心臓を降ろす"],
+                    ] as [Action, string][]
+                  ).map(([a, label]) => (
+                    <button key={a} disabled={blocked} onClick={() => extra(a)}>
+                      {label}
+                    </button>
+                  ))}
+                </div>
+              )}
               <p className="pointer-note">
-                開始するとマウスがゲームに固定されます。Escで解除できます。
+                {touch
+                  ? "左のスティックで移動。右側をなぞって見回す。ボタンをタップして調べる。"
+                  : shell.settings.inputMode === "keyboard"
+                    ? "WASDで移動、矢印で視点、Jで射撃、Eで調べる。Escで一時停止。"
+                    : "マウスで視点、WASDで移動。Escでマウス固定を解除できます。"}
               </p>
               {controls && (
                 <div className="settings">
-                  <p>
-                    WASD 移動 / マウス 視点 / Shift 走る / C しゃがむ / Space
-                    ジャンプ / E 調べる / T 牽引 / Q 降ろす / 左クリック 射撃 /
-                    F 近接 / R 装填 / Esc 一時停止
-                  </p>
                   <label>
                     音量
                     <input
@@ -206,9 +292,9 @@ export function App() {
                     />
                   </label>
                   <label>
-                    マウス感度
+                    視点感度
                     <input
-                      aria-label="マウス感度"
+                      aria-label="視点感度"
                       type="range"
                       min=".25"
                       max="2"
@@ -218,6 +304,36 @@ export function App() {
                         shell.setSettings({ sensitivity: +e.target.value })
                       }
                     />
+                  </label>
+                  <label>
+                    <input
+                      type="checkbox"
+                      checked={shell.settings.leftHanded}
+                      onChange={(e) =>
+                        shell.setSettings({ leftHanded: e.target.checked })
+                      }
+                    />
+                    左利きのタッチ配置
+                  </label>
+                  <label>
+                    <input
+                      type="checkbox"
+                      checked={shell.settings.largeText}
+                      onChange={(e) =>
+                        shell.setSettings({ largeText: e.target.checked })
+                      }
+                    />
+                    文字を大きく
+                  </label>
+                  <label>
+                    <input
+                      type="checkbox"
+                      checked={shell.settings.aimAssist}
+                      onChange={(e) =>
+                        shell.setSettings({ aimAssist: e.target.checked })
+                      }
+                    />
+                    照準の補助（タッチ・キーボード）
                   </label>
                   <label>
                     <input
@@ -232,6 +348,7 @@ export function App() {
                   <label>
                     画質
                     <select
+                      aria-label="画質"
                       value={shell.settings.quality}
                       onChange={(e) =>
                         shell.setSettings({ quality: e.target.value as "high" })
@@ -239,7 +356,7 @@ export function App() {
                     >
                       <option value="high">高</option>
                       <option value="medium">標準</option>
-                      <option value="low">軽量</option>
+                      <option value="low">軽量（スマホ推奨）</option>
                     </select>
                   </label>
                 </div>
@@ -250,7 +367,7 @@ export function App() {
                 </p>
               )}
               <div className="menu-foot">
-                PC VERTICAL SLICE <span>NO. 001 — THE NIGHT HARBOR</span>
+                BROWSER EDITION <span>NO. 001 — THE NIGHT HARBOR</span>
               </div>
             </section>
           </div>
