@@ -24,3 +24,7 @@
 - Keep keyboard/mouse baseline behavior available; settings v2 and mission schema v1 are separate.
 - Use independent source ownership for held actions and release all inputs on interruption.
 - Emulator touch-only route completion is separate from physical-device compatibility/performance.
+
+## 2026-09-22: オープンソース化
+
+ユーザーの指定でゲーム実装をMITライセンスにする。生成素材・依存関係・持ち込み教材の権利表示は保持する。Web配信はログイン不要のpublicへ変更。ゲームルール・操作は変更しない。

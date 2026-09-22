@@ -82,3 +82,7 @@ Independent new-player feedback, the target 20–30 minute first attempt, and re
 - Layout/lifecycle/keyboard checks pass at 844×390 and 667×375; production boot and guide have zero captured browser errors.
 - Sources and evidence: `docs/devlog/2026-09-22.md`, `docs/evidence/mobile/`, `docs/MOBILE_PLAY_GUIDE.md`, `public/help.html`.
 - This is the online Web edition. Full design-v2 release gate is not claimed: physical iOS/Android testing, native packaging, PWA/offline and arbitrary control remapping remain outstanding.
+
+## 2026-09-22 公開対応
+
+ゲーム本体のMITライセンスと公開版の案内を追加。Sites配信のアクセス設定はpublicへ変更済み。GitHubの公開切替はGitHub側のメール本人確認待ち。
