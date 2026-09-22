@@ -4,8 +4,8 @@
 
 ## スマホから遊ぶ
 
-- [ゲームを開く](https://heart-heist-browser.breezy-peach-6102.chatgpt.site)
-- [スマホ向けの説明書・攻略](https://heart-heist-browser.breezy-peach-6102.chatgpt.site/help.html)
+- [ゲームを開く](https://heart-heist-browser.ryoakg.chatgpt.site)
+- [スマホ向けの説明書・攻略](https://heart-heist-browser.ryoakg.chatgpt.site/help.html)
 
 横向きにして「タッチ（スマホ）」で開始。左スティックで移動、右側をなぞって視点、水色のボタンで話す・拾う・接続します。本人用の配信のため、必要に応じて作成時と同じChatGPTアカウントでサインインしてください。
 

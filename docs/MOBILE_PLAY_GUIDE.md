@@ -2,8 +2,8 @@
 
 更新：2026-09-22。ゲーム本体にタッチ操作を実装したオンラインのブラウザ版です。
 
-- ゲーム：[HEART HEIST](https://heart-heist-browser.breezy-peach-6102.chatgpt.site)
-- スマホで読む説明書：[遊び方・攻略](https://heart-heist-browser.breezy-peach-6102.chatgpt.site/help.html)
+- ゲーム：[HEART HEIST](https://heart-heist-browser.ryoakg.chatgpt.site)
+- スマホで読む説明書：[遊び方・攻略](https://heart-heist-browser.ryoakg.chatgpt.site/help.html)
 
 本人用の配信です。ログイン画面が出たら、このゲームを作成したときと同じChatGPTアカウントでサインインしてください。Macを起動しておく必要はありません。初回・再読み込みにはインターネット接続が必要です。
 
