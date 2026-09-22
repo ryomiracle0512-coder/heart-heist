@@ -85,4 +85,4 @@ Independent new-player feedback, the target 20–30 minute first attempt, and re
 
 ## 2026-09-22 公開対応
 
-ゲーム本体のMITライセンスと公開版の案内を追加。Sites配信のアクセス設定はpublicへ変更済み。GitHubの公開切替はGitHub側のメール本人確認待ち。
+ゲーム本体のMITライセンスと公開版の案内を追加。Sites配信のアクセス設定はpublicへ変更済み。GitHub側のメール本人確認完了後、設定画面でリポジトリの公開状態を確認済み。ゲームとソースの両方が公開済み。
